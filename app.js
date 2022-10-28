@@ -12,14 +12,14 @@ app.use(bodyParser.urlencoded({ extended: true })); // для приёма ве�
 
 mongoose.connect('mongodb://localhost:27017/mestodb');
 
-app.use('/', userRouter);
-app.use('/', cardRouter);
-
 app.use((req, res, next) => {
   req.user = {
     _id: '6357ac070476937d9f9f271f',
   };
   next();
 });
+
+app.use('/', userRouter);
+app.use('/', cardRouter);
 
 app.listen(PORT);
