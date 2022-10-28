@@ -19,8 +19,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/users', userRouter);
-app.use('/cards', cardRouter);
+app.use(userRouter);
+app.use(cardRouter);
 app.use('/*', (req, res) => {
   res.status(404).send({ message: 'Запрашиваемая страница не найдена.' });
 });
