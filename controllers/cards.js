@@ -27,7 +27,13 @@ module.exports.createCards = (req, res) => {
 
 module.exports.deleteCards = (req, res) => {
   Card.findByIdAndRemove(req.params.id)
-    .then((cards) => res.send({ data: cards }))
+    .then((cards) => {
+      if (cards) {
+        res.send({ data: cards });
+      } else {
+        res.status(404).send({ message: 'Запрашиваемая карточка не найдена.' });
+      }
+    })
     .catch((err) => {
       if (err.name === 'ValidationError') {
         res.status(400).send({ message: 'Ошибка удаления карточки.' });
@@ -43,7 +49,13 @@ module.exports.likeCard = (req, res) => {
     { $addToSet: { likes: req.user._id } },
     { new: true },
   )
-    .then((cards) => res.send({ data: cards }))
+    .then((cards) => {
+      if (cards) {
+        res.send({ data: cards });
+      } else {
+        res.status(404).send({ message: 'Запрашиваемая карточка не найдена.' });
+      }
+    })
     .catch((err) => {
       if (err.name === 'ValidationError') {
         res.status(400).send({ message: 'Ошибка лайка карточки.' });
@@ -59,7 +71,13 @@ module.exports.dislikeCard = (req, res) => {
     { $pull: { likes: req.user._id } },
     { new: true },
   )
-    .then((cards) => res.send({ data: cards }))
+    .then((cards) => {
+      if (cards) {
+        res.send({ data: cards });
+      } else {
+        res.status(404).send({ message: 'Запрашиваемая карточка не найдена.' });
+      }
+    })
     .catch((err) => {
       if (err.name === 'ValidationError') {
         res.status(400).send({ message: 'Ошибка дизлайка карточки.' });

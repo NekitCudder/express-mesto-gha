@@ -14,10 +14,16 @@ module.exports.getUsers = (req, res) => {
 
 module.exports.getUsersById = (req, res) => {
   User.findById(req.params.userId)
-    .then((users) => res.send({ data: users }))
+    .then((users) => {
+      if (users) {
+        res.send({ data: users });
+      } else {
+        res.status(404).send({ message: 'Запрашиваемый пользователь не найден.' });
+      }
+    })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(404).send({ message: 'Запрашиваемый пользователь не найден.' });
+        res.status(400).send({ message: 'Переданы некорректные данные.' });
       } else {
         res.status(500).send({ message: 'Ошибка' });
       }
@@ -40,7 +46,13 @@ module.exports.createUsers = (req, res) => {
 module.exports.updateUsers = (req, res) => {
   const { name, about } = req.body;
   User.findByIdAndUpdate(req.user._id, { name, about })
-    .then((users) => res.send({ data: users }))
+    .then((users) => {
+      if (users) {
+        res.send({ data: users });
+      } else {
+        res.status(404).send({ message: 'Запрашиваемый пользователь не найден.' });
+      }
+    })
     .catch((err) => {
       if (err.name === 'ValidationError') {
         res.status(400).send({ message: 'Переданы некорректные данные.' });
@@ -53,7 +65,13 @@ module.exports.updateUsers = (req, res) => {
 module.exports.updateAvatar = (req, res) => {
   const { avatar } = req.body;
   User.findByIdAndUpdate(req.user._id, { avatar })
-    .then((users) => res.send({ data: users }))
+    .then((users) => {
+      if (users) {
+        res.send({ data: users });
+      } else {
+        res.status(404).send({ message: 'Запрашиваемый пользователь не найден.' });
+      }
+    })
     .catch((err) => {
       if (err.name === 'ValidationError') {
         res.status(400).send({ message: 'Переданы некорректные данные.' });
