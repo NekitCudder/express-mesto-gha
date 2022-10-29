@@ -3,12 +3,8 @@ const Card = require('../models/card');
 module.exports.getCards = (req, res) => {
   Card.find({})
     .then((cards) => res.send({ data: cards }))
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        res.status(404).send({ message: 'Запрашиваемая карточка не найдена.' });
-      } else {
-        res.status(500).send({ message: 'Ошибка' });
-      }
+    .catch(() => {
+      res.status(500).send({ message: 'Ошибка' });
     });
 };
 
