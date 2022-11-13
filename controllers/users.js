@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const BadRequestError = require('../errors/BadRequestError');
 const NotFoundError = require('../errors/NotFoundError');
-// const UnauthorizedError = require('../errors/UnauthorizedError');
+const UnauthorizedError = require('../errors/UnauthorizedError');
 const ConflictError = require('../errors/ConflictError');
 
 module.exports.getUsers = (req, res, next) => {
@@ -97,7 +97,13 @@ module.exports.login = (req, res, next) => {
       res.cookie('jwt', token, { maxAge: 3600000 * 24 * 7, httpOnly: true });
       res.send({ message: 'Авторизация успешна' });
     })
-    .catch(next);
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        throw new UnauthorizedError('Ошибка авторизации.');
+      } else {
+        next(err);
+      }
+    });
 };
 
 module.exports.currentUser = (req, res, next) => {
