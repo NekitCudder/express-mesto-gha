@@ -24,12 +24,12 @@ module.exports.createCard = (req, res, next) => {
 };
 
 module.exports.deleteCard = (req, res, next) => {
-  const userCard = req.user._id;
+  // const userCard = req.user._id;
   Card.findById(req.params._id)
     .then((data) => {
       if (!data) {
         throw new NotFoundError('Запрашиваемая карточка не найдена.');
-      } else if (data.card.owner === userCard) {
+      } else if (data.owner === req.user._id) {
         Card.findByIdAndRemove(req.params._id)
           .then((newCard) => {
             res.send({ data: newCard });
