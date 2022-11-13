@@ -6,7 +6,7 @@ const { idValidation, userInfoValidation, avatarValidation } = require('../middl
 
 userRouter.get('/users', getUsers);
 userRouter.get('/users/:_id', idValidation, getUserById);
-userRouter.get('/users/me', idValidation, currentUser);
+userRouter.get('/users/me', currentUser);
 userRouter.patch('/users/me', userInfoValidation, updateUser);
 userRouter.patch('/users/me/avatar', avatarValidation, updateAvatar);
 
