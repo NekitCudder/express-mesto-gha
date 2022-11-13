@@ -1,6 +1,6 @@
 const { celebrate, Joi } = require('celebrate');
-
-module.exports.urlRegex = /(http:\/\/|https:\/\/)(www)*[a-z0-9._~:/?#[]@!$&'()*\+,;=]+#*/;
+// eslint-disable-next-line no-useless-escape
+module.exports.urlRegExp = /(http:\/\/|https:\/\/)(www)*[a-z0-9\-\.\_\~\:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=]+#*/;
 
 module.exports.loginValidation = celebrate({
   body: Joi.object().keys({
