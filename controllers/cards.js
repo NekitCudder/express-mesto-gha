@@ -27,22 +27,17 @@ module.exports.deleteCard = (req, res, next) => {
   const userCard = req.user._id;
   Card.findById(req.params._id)
     .then((card) => {
-      if (card.owner.toString() === userCard) {
-        Card.findByIdAndRemove(req.params._id)
-          .then((newCard) => {
-            if (newCard) {
+      if (card) {
+        if (card.owner.toString() === userCard) {
+          Card.findByIdAndRemove(req.params._id)
+            .then((newCard) => {
               res.send({ data: newCard });
-            } else {
-              throw new NotFoundError('Запрашиваемая карточка не найдена.');
-            }
-          })
-          .catch((err) => {
-            if (err.name === 'CastError') {
-              next(new BadRequestError('Переданы некорректные данные.'));
-            } else {
-              next(err);
-            }
-          });
+            })
+            .catch(next);
+        }
+      }
+      else {
+        throw new NotFoundError('Запрашиваемая карточка не найдена.');
       }
     })
     .catch(() => {
