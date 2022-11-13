@@ -24,19 +24,25 @@ module.exports.createCard = (req, res, next) => {
 };
 
 module.exports.deleteCard = (req, res, next) => {
-  Card.findByIdAndRemove(req.params._id)
+  const userCard = req.user._id;
+  Card.findById(req.params._id)
     .then((card) => {
-      if (card) {
-        res.send({ data: card });
-      } else {
-        throw new NotFoundError('Запрашиваемая карточка не найдена.');
-      }
-    })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        next(new BadRequestError('Переданы некорректные данные.'));
-      } else {
-        next(err);
+      if (card.owner.toString() === userCard) {
+        Card.findByIdAndRemove(req.params._id)
+          .then((newCard) => {
+            if (newCard) {
+              res.send({ data: newCard });
+            } else {
+              throw new NotFoundError('Запрашиваемая карточка не найдена.');
+            }
+          })
+          .catch((err) => {
+            if (err.name === 'CastError') {
+              next(new BadRequestError('Переданы некорректные данные.'));
+            } else {
+              next(err);
+            }
+          });
       }
     });
 };
