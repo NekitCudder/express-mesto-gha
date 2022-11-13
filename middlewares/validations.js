@@ -13,7 +13,7 @@ module.exports.userValidation = celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
     about: Joi.string().min(2).max(30),
-    avatar: Joi.string().pattern(this.urlRegex),
+    avatar: Joi.string().pattern(this.urlRegExp),
     email: Joi.string().required().email(),
     password: Joi.string().required(),
   }),
@@ -28,7 +28,7 @@ module.exports.userInfoValidation = celebrate({
 
 module.exports.avatarValidation = celebrate({
   body: Joi.object().keys({
-    avatar: Joi.string().pattern(this.urlRegex),
+    avatar: Joi.string().pattern(this.urlRegExp),
   }),
 });
 
@@ -41,6 +41,6 @@ module.exports.idValidation = celebrate({
 module.exports.cardValidation = celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
-    link: Joi.string().required().pattern(this.urlRegex),
+    link: Joi.string().required().pattern(this.urlRegExp),
   }),
 });
