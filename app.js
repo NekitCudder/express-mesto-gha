@@ -7,7 +7,7 @@ const userRouter = require('./routes/users');
 const cardRouter = require('./routes/cards');
 const NotFoundError = require('./errors/NotFoundError');
 const { login, createUser } = require('./controllers/users');
-const { auth } = require('./middlewares/auth');
+const auth = require('./middlewares/auth');
 const { loginValidation, userValidation } = require('./middlewares/validations');
 
 const { PORT = 3000 } = process.env;
@@ -20,8 +20,8 @@ app.use(cookieParser());
 mongoose.connect('mongodb://localhost:27017/mestodb');
 app.post('/signin', loginValidation, login);
 app.post('/signup', userValidation, createUser);
-app.use('/users', auth, userRouter);
-app.use('/cards', auth, cardRouter);
+app.use(auth, userRouter);
+app.use(auth, cardRouter);
 
 app.use('/*', () => {
   throw new NotFoundError('Запрашиваемая страница не найдена.');
