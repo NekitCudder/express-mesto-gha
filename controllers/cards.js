@@ -27,16 +27,14 @@ module.exports.deleteCard = (req, res, next) => {
   const userCard = req.user._id;
   Card.findById(req.params._id)
     .then((data) => {
-      if (data) {
-        if (data.owner === userCard) {
-          Card.findByIdAndRemove(req.params._id)
-            .then((newCard) => {
-              res.send({ data: newCard });
-            })
-            .catch(next);
-        }
-      } else {
+      if (!data) {
         throw new NotFoundError('Запрашиваемая карточка не найдена.');
+      } else if (data.owner === userCard) {
+        Card.findByIdAndRemove(req.params._id)
+          .then((newCard) => {
+            res.send({ data: newCard });
+          })
+          .catch(next);
       }
     })
     .catch(() => {
