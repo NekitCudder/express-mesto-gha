@@ -100,7 +100,7 @@ module.exports.login = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        throw new UnauthorizedError('Ошибка авторизации.');
+        throw new UnauthorizedError('Ошибка авторизации. #3');
       } else {
         next(err);
       }
