@@ -20,8 +20,8 @@ app.use(cookieParser());
 mongoose.connect('mongodb://localhost:27017/mestodb');
 app.post('/signin', loginValidation, login);
 app.post('/signup', userValidation, createUser);
-app.use('/', auth, userRouter);
-app.use('/', auth, cardRouter);
+app.use('/users', auth, userRouter);
+app.use('/cards', auth, cardRouter);
 
 app.use('/*', () => {
   throw new NotFoundError('Запрашиваемая страница не найдена.');
