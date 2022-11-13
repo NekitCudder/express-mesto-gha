@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const isEmail = require('validator');
 const UnauthorizedError = require('../errors/UnauthorizedError');
+const urlRegex = require('../middlewares/validations');
 
-const urlRegex = /(http:\/\/|https:\/\/)(www)*[a-z0-9._~:/?#[]@!$&'()*\+,;=]+#*/;
 const userSchema = new mongoose.Schema(
   {
     name: {
