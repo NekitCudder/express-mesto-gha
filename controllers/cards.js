@@ -44,6 +44,9 @@ module.exports.deleteCard = (req, res, next) => {
             }
           });
       }
+    })
+    .catch(() => {
+      next(new NotFoundError('Запрашиваемая карточка не найдена.'));
     });
 };
 
