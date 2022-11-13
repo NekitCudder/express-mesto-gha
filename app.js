@@ -19,9 +19,8 @@ app.use(cookieParser());
 
 mongoose.connect('mongodb://localhost:27017/mestodb');
 
-app.use(userRouter);
-app.use(cardRouter);
-app.use(auth);
+app.use('/', auth, userRouter);
+app.use('/', auth, cardRouter);
 app.post('/signin', loginValidation, login);
 app.post('/signup', userValidation, createUser);
 
