@@ -24,7 +24,7 @@ app.use(auth);
 app.use('/users', userRouter);
 app.use('/cards', cardRouter);
 
-app.use('/*', () => {
+app.all('/*', () => {
   throw new NotFoundError('Запрашиваемая страница не найдена.');
 });
 app.use(errors());
