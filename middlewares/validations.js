@@ -1,6 +1,6 @@
 const { celebrate, Joi } = require('celebrate');
-// eslint-disable-next-line no-useless-escape
-module.exports.urlRegExp = /(http:\/\/|https:\/\/)(www)*[a-z0-9\-\.\_\~\:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=]+#*/;
+
+module.exports.urlRegExp = /(http:\/\/|https:\/\/)(www)*[a-z0-9\-._~:/?#[\]@!$&'()*+,;=]+#*/;
 
 module.exports.loginValidation = celebrate({
   body: Joi.object().keys({
@@ -28,13 +28,13 @@ module.exports.userInfoValidation = celebrate({
 
 module.exports.avatarValidation = celebrate({
   body: Joi.object().keys({
-    avatar: Joi.string().pattern(this.urlRegExp),
+    avatar: Joi.string().required().pattern(this.urlRegExp),
   }),
 });
 
 module.exports.idValidation = celebrate({
   params: Joi.object().keys({
-    _id: Joi.string().alphanum().length(24),
+    _id: Joi.string().length(24).hex(),
   }),
 });
 
